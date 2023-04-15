@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<table class="table table-bordered" id="customerTable">
+    <tr>
+        <th>CustomerId</th>
+        <th>CompanyName</th>
+        <th>ContactNamee</th>
+        <th>Phone</th>
+        <th>Orders</th>
+
+    </tr>
+
+    <script>
+        $(document).ready(function () {
+            //alert('test')
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7219/api/Linq/GetCustomerList",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    //alert(data);
+                    alert(JSON.stringify(data));
+
+                    $.each(data, function (i, item) {
+                        //alert(i);
+                        var rows = "<tr>" +
+                            "<td id=customerId>" + item["customerId"] + "</td>" +
+                            "<td id=companyName>" + item["companyName"] + "</td>" +
+                            "<td id=contactName>" + item["contactName"] + "</td>" +
+                            "<td id=phone>" + item["phone"] + "</td>" +
+                            "<td id=button>"+ "<form asp-controller='Request' asp-action='RequestCustormerOrders' method='post'>"+
+                            "<input name='customerId' type='hidden' value="+item["customerId"]+">"+
+                            "<button type='submit' >Get Costumer Orders</button>" + "</form></td>"+
+                            "</tr>"
+                        $("#customerTable").append(rows);
+
+                    })
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+
+            });
+        });
+
+    </script>
+
+
+
+
+
