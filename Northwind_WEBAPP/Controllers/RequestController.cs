@@ -32,5 +32,24 @@ namespace Northwind_WEBAPP.Controllers
         //    }
         //    return View(olist);
         //}
+        [HttpPost]
+        public async Task<IActionResult> RequestCustormerOrders(IFormCollection form) //get methodu ile request uri degistirerek kullanildi post ile duzeltilecek.
+        {
+            List<OrderDTO> olist = new List<OrderDTO>();
+            var customerId = form["customerId"];          
+            var requestUri = "https://localhost:7219/api/Linq/CustomerOrders?Id=" + customerId;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(requestUri);
+                var response = await client.GetAsync(requestUri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var readTask = await response.Content.ReadAsStringAsync();
+                    olist = JsonConvert.DeserializeObject<List<OrderDTO>>(readTask);
+                }
+            }
+            return View("RequestCustormerOrders", olist);
+        }
     }
 }

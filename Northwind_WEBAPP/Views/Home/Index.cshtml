@@ -8,6 +8,8 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+
+
 <table class="table table-bordered" id="customerTable">
     <tr>
         <th>CustomerId</th>
@@ -37,9 +39,9 @@
                             "<td id=companyName>" + item["companyName"] + "</td>" +
                             "<td id=contactName>" + item["contactName"] + "</td>" +
                             "<td id=phone>" + item["phone"] + "</td>" +
-                            "<td id=button>"+ "<form asp-controller='Request' asp-action='RequestCustormerOrders' method='post'>"+
-                            "<input name='customerId' type='hidden' value="+item["customerId"]+">"+
-                            "<button type='submit' >Get Costumer Orders</button>" + "</form></td>"+
+                            "<td id=button>" + "<form method='post'>" +
+                            "<input  name='customerId' type='hidden' value=" + item["customerId"] + ">" +
+                            "<button  formaction='/Request/RequestCustormerOrders' >Get Costumer Orders</button>" + "</form></td>" +
                             "</tr>"
                         $("#customerTable").append(rows);
 
